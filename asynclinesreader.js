@@ -98,7 +98,7 @@ class LinesReader {
     let previous = ''
 
     for await (const chunk of this.chunksAsync) {
-      const lines = chunk.match(/^.+(?:\r\n|\r|\n)|^(?:\r\n|\r|\n)|^.+$/gm)
+      const lines = chunk.split(/(?<=\r?\n|\r(?!\n))/u)
 
       if (previous !== '') lines[0] = previous + lines[0]
 
