@@ -113,7 +113,7 @@ class LinesReader {
     }
   }
 }
-
+  
 function guessEncoding (path) {
   const BOM_0 = 0xff
   const BOM_1 = 0xfe
