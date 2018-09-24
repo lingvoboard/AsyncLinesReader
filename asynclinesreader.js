@@ -94,16 +94,15 @@ class LinesReader {
     })
   }
 
-  async * chunksToLines () {
+async * chunksToLines () {
     let previous = ''
 
     for await (const chunk of this.chunksAsync) {
-      const lines = chunk.split(/(?<=\r?\n|\r(?!\n))/u)
+      const lines = (previous === '' ? chunk : `${previous}${chunk}`).split(
+        /(?<=\r?\n|\r(?!\n))/u
+      )
 
-      if (previous !== '') lines[0] = previous + lines[0]
-
-      if (!/[\r\n]$/.test(lines[lines.length - 1])) previous = lines.pop()
-      else previous = ''
+      previous = lines[lines.length - 1].endsWith('\n') ? '' : lines.pop()
 
       yield lines
     }
